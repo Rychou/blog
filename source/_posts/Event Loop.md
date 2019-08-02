@@ -77,9 +77,9 @@ console.log('9')
 
 众所周知，Javascript是单线程的。在整个代码执行期间，会执行各种同步和异步的代码，保证其代码的执行顺序就很重要了。而事件循环机制就是干这个事的。
 
-事件循环机制的流程如下：
+事件循环机制的简要流程如下：
 
-![](D:\blog\source\_posts\event-loop\event-loop-flow.png)
+![1562853496626](C:\Users\rychouwei\AppData\Roaming\Typora\typora-user-images\1562853496626.png)
 
 ## 题目分析
 
@@ -118,7 +118,15 @@ console.log('9')
 
 然后，检查`micro-task`是否有待执行的微任务。发现有个 `then` 回调在`micro-task`中，取出执行。
 
-​	1. 输出 **`7`**
+	1. 输出 **`7`**
+
+### 输出结果
+
+```
+1,3,9,4,2,5,8,7
+```
+
+
 
 ## 把问题升级一下
 
@@ -200,3 +208,22 @@ new Promise((resolve)=>{
 
 
 
+### 输出结果
+
+```js
+// 1,3,async1,4,9,2,5,6,8,7
+```
+
+## 总结
+
+浏览器中事件循环的大致流程：
+
+1. 选取marco-task队头的回调函数执行（第一轮为 script 全局代码）
+2. 执行完后执行micro-task队列中所有微任务，若没有微任务则跳过
+3. 一轮事件循环结束，重复1,2,3
+
+### 参考链接
+
+- [事件循环机制](<https://yangbo5207.github.io/wutongluo/ji-chu-jin-jie-xi-lie/shi-er-3001-shi-jian-xun-huan-ji-zhi.html>)
+- [What the heck is the event loop anyway? | Philip Roberts | JSConf EU](<https://2014.jsconf.eu/speakers/philip-roberts-what-the-heck-is-the-event-loop-anyway.html>)
+- [Understanding Javascript Function Executions — Call Stack, Event Loop , Tasks & more](<https://medium.com/@gaurav.pandvia/understanding-javascript-function-executions-tasks-event-loop-call-stack-more-part-1-5683dea1f5ec>)
